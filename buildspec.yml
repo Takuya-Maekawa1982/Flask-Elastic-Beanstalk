@@ -3,14 +3,27 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      python: 3.7
+      python: 3.12
+    commands:
+      - echo "Setting up environment..."
+      - python3.12 -m venv ~/.venv
+      # Use the 'venv' by calling the pip/python inside it directly or chaining
+      - ~/.venv/bin/pip install --upgrade pip
   pre_build:
     commands:
-      - python3.7 -m venv ~/.venv
-      - source ~/.venv/bin/activate
-      - make install
-      - make lint
-
+      - echo "Running pre-build checks..."
+      # Chaining ensures the 'source' carries over to the make commands
+      - source ~/.venv/bin/activate && make install && make lint
   build:
     commands:
-      - make deploy
+      - echo "Build started on `date`"
+      # If you have tests, add them here:
+      # - source ~/.venv/bin/activate && make test
+
+artifacts:
+  files:
+    - '**/*'
+  exclude-paths:
+    - 'README.md'
+    - '.gitignore'
+    - 'docs/**/*'

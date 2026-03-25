@@ -1,15 +1,16 @@
 install:
-	pip install --upgrade pip &&\
+	pip install --upgrade pip && \
 		pip install -r requirements.txt
 
 test:
-	#python -m pytest -vv test_application.py
+	# python -m pytest -vv test_application.py
+	@echo "No tests defined yet."
 
 lint:
 	pylint --disable=R,C application.py
 
+# Use this only when you want to deploy manually from your Ubuntu terminal
 deploy:
-	echo "Deploying app"
-	eb deploy hello-env
+	eb deploy flask-continuous-delivery-env
 
-all: install lint test 
+all: install lint test
